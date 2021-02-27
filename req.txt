@@ -1,0 +1,6 @@
+cryptography
+torpy
+requests
+stem
+flask
+requests[socks]

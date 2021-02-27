@@ -40,4 +40,4 @@
 
 
 <img src="https://github.com/JUSTSAIF/28P-Chat/blob/main/pic.png?raw=true" 
-border="10" width="250"/>
+border="10" width="600"/>

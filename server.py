@@ -7,7 +7,7 @@ import os,subprocess
 
 # Set Cmd Title & Style
 os.system("title Creating Your Host on Tor Service...")
-# os.system("color 2 & mode con: cols=100 lines=40")
+os.system("color 2 & mode con: cols=100 lines=40")
 # -=-=-=-=-=-=-= Start Work =-=-=-=-=-=-=-
 errMsg = "file not exist, are you sure tor is installed?\n if installed set your Tor Path by :\n run.py --tor-path \"X://xxx/TorBrowser/Tor/tor.exe\" "
 try:config   = json.loads(md.ConfigFile().GetConfig())
@@ -15,9 +15,10 @@ except:config   = md.ConfigFile().GetConfig()
 
 tor_path = config['tor_path']
 if(tor_path == ""):tor_path = md._all().guessTorPath()
-if os.path.isfile(tor_path) and "tor.exe" in tor_path and tor_path != "":
+if os.path.isfile(tor_path) and "tor.exe" in tor_path:
     for i in os.popen("tasklist"):
-        if("tor.exe" in i):os.system("taskkill /F /IM tor.exe")
+        if("tor.exe" in i):
+            os.system("taskkill /F /IM tor.exe")
     launch_tor_with_config(tor_cmd=tor_path , config={'ControlPort': '9051'})
     # -=-=-=-=-= Start Server =-=-=-=-=-
     app = Flask("28P-Chat")

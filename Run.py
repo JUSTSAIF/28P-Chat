@@ -71,7 +71,7 @@ if args.peer_host is not None:
 
 # Index Work 
 os.system('start py server.py')
-time.sleep(1)
+time.sleep(2)
 os.system('start py responder.py')
-time.sleep(1)
+time.sleep(2)
 os.system('start py sender.py')

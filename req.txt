@@ -1,6 +1,9 @@
 cryptography
+tkinter
 torpy
 requests
+requests[socks]
 stem
 flask
-requests[socks]
+getpass
+argparse

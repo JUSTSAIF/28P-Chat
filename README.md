@@ -3,7 +3,7 @@
 
 
 ## info
-####  peer to pper chat on tor service
+####  peer to peer chat on tor service
 [Learn about the Tor service]: https://2019.www.torproject.org/about/overview.html.en
 
 ## Used libraries :

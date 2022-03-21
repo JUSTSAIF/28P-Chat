@@ -1,77 +1,58 @@
-import os,time,sys,argparse,json,hashlib,string
+import os,time,argparse,json
 import modules as md
-
+import sys
 
 # -=-=-=-=-=-=-=-=-=-=-=-= Arg Commands -=-=-=-=-=-=-=-=-=-=-=-= #
 parser = argparse.ArgumentParser(description='There\'s no Help -_- !')
-parser.add_argument('--tor-path',nargs='*', help='Tor Browser Path')
-parser.add_argument('--conf',nargs='*', help='get confing data\n work : run.py --conf your-password-here')
-parser.add_argument('--reconfig',nargs='*', help='reCreate Config File With basics info,\nWork? = run.py --reconfig q')
-parser.add_argument('--peer-host',nargs='*', help='update peer host,\nWork? = run.py --peer-host yourFriendHost')
+parser.add_argument('--conf',nargs='*', help='get confing data\n How To Work : run.py --conf')
+parser.add_argument('--reconfig',nargs='*', help='reCreate Config File With basics info,\nHow To Work? = run.py --reconfig')
+parser.add_argument('--peerhost',nargs='*', help='update peer host,\nHow To Work? = run.py --peerhost "yourFriendHost"')
 args = parser.parse_args()
 
-#  -=-=-=-=-= reConfig =-=-=-=-=-
-if args.reconfig is not None:
-    if(args.reconfig[0] == "q"):
-        md.ConfigFile().EditConfFile(resetDefault=True)
-        print("done")
-        exit()
-    exit()
 
-if(os.path.exists("data.enc") !=True):
-    print("Please Reconfigure use : run.py --reconfig q")
-    exit()
+if(os.path.exists("data.enc") != True):
+    md.ConfigFile().EditConfFile(resetDefault=True)
 
 
 try:config   = json.loads(md.ConfigFile().GetConfig())
 except:config   = md.ConfigFile().GetConfig()
 _all     = md._all()
+
+#  -=-=-=-=-= LOGIN =-=-=-=-=-
 login = _all.login()
 if  "Logged In Successfully" not in login:
     print(login)
-    exit()
- 
-#  -=-=-=-=-= tor-path =-=-=-=-=-
-if args.tor_path is not None:
-    try:
-        path = args.tor_path[0]
-        if(os.path.exists(path)):
-            config['tor_path'] = path
-            md.ConfigFile().EditConfFile(data=json.dumps(config))
-            print("Done .")
-            exit()
-        else:
-            print("\033[1;31;40m File not Exist, Incorrect Tor File \033[1;37;40m")
-            exit()
-    except(Exception):print("add the path inside \"\" ")
-#  -=-=-=-=-= Get conf =-=-=-=-=-
-if args.conf is not None:
-    pass__=''
-    for i in args.conf :pass__ += i
-    pass_ = hashlib.md5(pass__.encode()).hexdigest()
-    if(pass_ == config['password']):
-        print(config)
-        exit()
-    else:
-        print("Incorrect Password")
-        exit()
-#  -=-=-=-=-= peer_host =-=-=-=-=-
-if args.peer_host is not None:
-    host = "http://"+args.peer_host[0]+".onion"
-    chk  = _all.check_peerHost(host)
-    if(chk == True):
-        config['peerHost'] = host.replace(".onion","").replace("http://","")
-        chk = md.ConfigFile().EditConfFile(data=json.dumps(config))
-        if(chk):print("\033[1;32;40m has been added successfully \033[1;37;40m")
-        else:print("\033[1;31;40m Failed to add ! \033[1;37;40m")
-        exit()
-    else:print(chk)
-    exit()
-    
+    sys.exit()
 
-# Index Work 
-os.system('start py server.py')
+for arg in vars(args):
+    #  -=-=-=-=-= Get conf =-=-=-=-=-
+    if arg == "conf" and args.conf != None:
+        print(config)
+        sys.exit()
+    #  -=-=-=-=-= peerhost =-=-=-=-=-
+    elif arg == "peerhost" and args.peerhost != None:   
+        host = "http://"+args.peerhost[0]+".onion"
+        chk  = _all.check_peerHost(host)
+        if(chk == True):
+            config['peerHost'] = args.peerhost[0]
+            chk = md.ConfigFile().EditConfFile(data=json.dumps(config))
+            if(chk):print("\033[1;32;40m has been added successfully \033[1;37;40m")
+            else:print("\033[1;31;40m Failed to add ! \033[1;37;40m")
+            sys.exit()
+        else:print(chk)
+        sys.exit()
+    #  -=-=-=-=-= reConfig =-=-=-=-=-
+    elif arg == "reconfig" and args.reconfig != None:
+        print("GG")
+        try:
+            md.ConfigFile().EditConfFile(resetDefault=True)
+            print("\033[1;32;40m has been added successfully \033[1;37;40m")
+            sys.exit()
+        except:sys.exit()
+
+#  -=-=-=-=-= Run =-=-=-=-=-
+os.system('start py server.py e4oyBHK7YPBj7Tvj') # Exe : start server.exe e4oyBHK7YPBj7Tvj
 time.sleep(2)
-os.system('start py responder.py')
+os.system('start py responder.py e4oyBHK7YPBj7Tvj') # Exe : start responder.exe e4oyBHK7YPBj7Tvj
 time.sleep(2)
-os.system('start py sender.py')
+os.system('start py sender.pyw e4oyBHK7YPBj7Tvj') # Exe : start sender.exe e4oyBHK7YPBj7Tvj

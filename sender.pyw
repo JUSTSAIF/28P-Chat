@@ -1,7 +1,14 @@
 from tkinter import CENTER,Text,Button,messagebox
 import modules as md
 import tkinter as tk
-import json
+import json,sys
+
+try:
+	if sys.argv[1] != "e4oyBHK7YPBj7Tvj":
+		sys.exit()
+except:
+    sys.exit()
+
 # Conf & styling
 root = tk.Tk()
 root.geometry('840x230')

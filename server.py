@@ -1,57 +1,59 @@
-from flask import Flask, session, redirect, url_for, escape, request,json
+from flask import Flask, request,json
 from stem.control import Controller
-from stem import Signal
-from stem.process import launch_tor_with_config
 import modules as md
-import os,subprocess
+import os,sys
 
-# Set Cmd Title & Style
-os.system("title Creating Your Host on Tor Service...")
-os.system("color 2 & mode con: cols=100 lines=40")
-# -=-=-=-=-=-=-= Start Work =-=-=-=-=-=-=-
-errMsg = "file not exist, are you sure tor is installed?\n if installed set your Tor Path by :\n run.py --tor-path \"X://xxx/TorBrowser/Tor/tor.exe\" "
-try:config   = json.loads(md.ConfigFile().GetConfig())
-except:config   = md.ConfigFile().GetConfig()
+try:
+	if sys.argv[1] != "e4oyBHK7YPBj7Tvj":
+		sys.exit()
+except:sys.exit()
 
-tor_path = config['tor_path']
-if(tor_path == ""):tor_path = md._all().guessTorPath()
-if os.path.isfile(tor_path) and "tor.exe" in tor_path:
-    for i in os.popen("tasklist"):
-        if("tor.exe" in i):
-            os.system("taskkill /F /IM tor.exe")
-    launch_tor_with_config(tor_cmd=tor_path , config={'ControlPort': '9051'})
+try:
+    # Set Cmd Title & Style
+    os.system("title Creating Your Host on Tor Service...")
+    os.system("color 2 & mode con: cols=100 lines=40")
+    try:config   = json.loads(md.ConfigFile().GetConfig())
+    except:config   = md.ConfigFile().GetConfig()
+
     # -=-=-=-=-= Start Server =-=-=-=-=-
     app = Flask("28P-Chat")
+    @app.route('/',methods=['GET'])
+    def index():
+        return json.dumps({"my_name":config['name'],"peer_host":config['peerHost'],"my_host":config['myHost']})
     @app.route('/send',methods=['GET'])
     def send():
-        msg = request.args.get('msg')
-        name = request.args.get('name')
-        # host = request.args.get('host')
-        if (msg != None) or (msg != ""):
-            send_data = {"msg":msg,"name":"","host":"","me":""}
-            if(name != None) :send_data['name'] = name
-            # if(host != None) :
-            #     config['peerHost'] = host
-            #     md.ConfigFile().EditConfFile(data=config)
-            msg = open("msg.json",'w')
-            msg.write(json.dumps(send_data))
-            msg.close()
-            return {"msg_send":True}
-        return {"msg_send":False}
+        try:
+            msg = str(request.args.get('msg'))
+            name = str(request.args.get('name')) if len(str(request.args.get('name'))) > 0 else  "UNKNOWN"
+            host = str(request.args.get('host'))
+            if (msg != None) or (msg != ""):
+                send_data = {"msg":msg,"name":name,"host":host,"me":""}
+                config['peerHost'] = host
+                md.ConfigFile().EditConfFile(data=config)
+                msg = open("msg.json",'w')
+                msg.write(json.dumps(send_data))
+                msg.close()
+                return {"msg_send":True}
+            return {"msg_send":False}
+        except:return {"msg_send":False}
     with Controller.from_port() as controller:
-        controller.authenticate()
-        pr_key = config['myPrivate_key']
-        if(pr_key == "ED25519-V3"):
-            response = controller.create_ephemeral_hidden_service({80: 5000},key_content = 'ED25519-V3',await_publication = True)
-            config['myHost'] = response.service_id
-            config['myPrivate_key'] = response.private_key
-            md.ConfigFile().EditConfFile(data=config)
-        else:
-            response = controller.create_ephemeral_hidden_service({80: 5000}, await_publication = True,key_type="ED25519-V3",key_content=pr_key)
-        print("Tor Service Id :: %s" % response.service_id)
-        try:app.run(threaded=True)
-        finally:print(" >> Shutting ....")
-else:
-    print(errMsg)
-    input("Press Enter To Close UwU ")
-    exit()
+            controller.authenticate()
+            pr_key = config['myPrivate_key']
+            if(pr_key == "ED25519-V3"):
+                response = controller.create_ephemeral_hidden_service({80: 5000},key_content = 'ED25519-V3',await_publication = True)
+                config['myHost'] = response.service_id
+                config['myPrivate_key'] = response.private_key
+                md.ConfigFile().EditConfFile(data=config)
+            else:
+                response = controller.create_ephemeral_hidden_service({80: 5000}, await_publication = True,key_type="ED25519-V3",key_content=pr_key)
+            print("Tor Service Id :: %s" % response.service_id)
+            os.system("title Tor Service Created Successfully...")
+            try:
+                app.run(threaded=True)
+                os.system("title Running...")
+            finally:print(" >> Shutting ....")
+except:
+    os.system("title Tor Service Failed to Start")
+    print("\u001b[31m \n\n   Tor Service Failed to Start.\u001b[33m \n\n    *) Be Sure Tor Browser is Running\n    *) Try restarting Tor Browser and Terminate tor.exe from Task Manager,\n    *) Restart this Program and Try Again.")
+    input("\n\n \u001b[37m Press Enter to Exit 0w0")
+    sys.exit()

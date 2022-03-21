@@ -1,43 +1,51 @@
-# 28P-Chat  v0.1
+# 28P-Chat  v0.2
 [![forthebadge made-with-python](http://ForTheBadge.com/images/badges/made-with-python.svg)](https://www.python.org/)
 
 
-## info
-####  peer to peer chat on tor service
-[Learn about the Tor service]: https://2019.www.torproject.org/about/overview.html.en
+#### Description
+```
+peer to peer chat on tor service
+```
+####  
 
-## Used libraries :
-+ cryptography
-+ tkinter
-+ torpy
-+ requests
-+ requests[socks]
-+ stem
-+ flask
-+ getpass
-+ argparse
-- .... And there's more , but you don't need to install them
+#### Used libraries :
+```requests-tor,cryptography,tkinter,torpy,stem,flask,getpass,argparse```
 
+#### Download Binary (portable) : [Link](https://cdn.discordapp.com/attachments/943776213724463114/955260201831899186/28P-CHAT.rar)
 
-##### ============================ Configure ============================
+###### ============================ Configure ============================
 
-## first run : run.py 
-##### create your name & password 
-#### then run : run.py  --tor-path "set your tor.exe path here" 
-##### like : ` run.py  --tor-path "X:\user\xxx\Tor Browser\Browser\TorBrowser\Tor\tor.exe"
+### first run : run.py 
 
 ##### ========== Commands ==========
-### run.py  --conf "your password here"
+<br>
+```
+[--c] --conf
+[--r] --reconfig
+[--p] --peerhost
+```
+
+### run.py  --conf
 ##### `this will show your data like : name,password hash, your host,peer host.....`
 
-### run.py  --reconfig  q
+### run.py  --reconfig
 ##### `this will reset your data`
 
-
-### run.py  --peer-host  "set your Friend tor host here"
-##### like : ` run.py  --peer-host "ow24et3tetp6tvmk"
+### run.py  --peerhost  "set your Friend tor host here"
 ##### `This will update the host you are talking to`
+``` 
+without http:// and .onion .... so if i have this addr : 
+http://juhanurmihxlp77nkq76byazcldy2hlmovfu2epvl5ankdibsot4csyd.onion
+it's will be like this :
+juhanurmihxlp77nkq76byazcldy2hlmovfu2epvl5ankdibsot4csyd
+```
+##### like : ` run.py  --peerhost "juhanurmihxlp77nkq76byazcldy2hlmovfu2epvl5ankdibsot4csyd"
 
 
-<img src="https://github.com/JUSTSAIF/28P-Chat/blob/main/pic.png?raw=true" 
-border="10" width="600"/>
+##### PC No.1 [ User : Me ]
+<img src="PIC/Me.png" border="10" width="600"/>
+
+##### PC No.2 [ User : 0w0]
+<img src="PIC/0w0.png" border="10" width="600"/>
+
+

@@ -1,5 +1,11 @@
 import json,os,time,threading
 import modules as md
+import sys
+
+try:
+	if sys.argv[1] != "e4oyBHK7YPBj7Tvj":
+		sys.exit()
+except:sys.exit()
 
 # Set Cmd Title & Style
 os.system("28P - Chat")
@@ -12,7 +18,7 @@ print('''
 	     odD' `VoooY' 88oodD'            8P      88ooo88 88ooo88    88   
 	   .88'   .d~~~b. 88~~~     C8888D   8b      88~~~88 88~~~88    88   
 	  j88.    88   8D 88                 Y8b  d8 88   88 88   88    88   
-	  888888D `Y888P' 88                  `Y88P' YP   YP YP   YP    YP  v0.1
+	  888888D `Y888P' 88                  `Y88P' YP   YP YP   YP    YP  v0.2
 	============================== By - Mr28 ================================\n\n\n''')
 
 
@@ -34,9 +40,7 @@ def getNewMsg():
 		name    	= msgFile['name']
 		me      	= msgFile['me']
 		if(msg != ""):
-			peerName  ="UNKNOWN"
-			if(name != ""):peerName = name
-			threading.Thread(print("        "+str(peerName)+" >> "+str(msg)))
+			threading.Thread(print("        "+str(name)+" >> "+str(msg)))
 		if(me != ""):
 			threading.Thread(print("        Me  >> %s "%me))
 		threading.Thread(update())
@@ -49,4 +53,4 @@ finally:
 	print("\033[1;36;40m Closing ...")
 	time.sleep(1)
 	threading.Thread(update())
-	exit()
+	sys.exit()

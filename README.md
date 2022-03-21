@@ -9,7 +9,7 @@ peer to peer chat on tor service
 ####  
 
 #### Used libraries :
-```requests-tor,cryptography,tkinter,torpy,stem,flask,getpass,argparse```
+```requests-tor ,cryptography ,tkinter ,torpy ,stem ,flask ,getpass ,argparse ```
 
 #### Download Binary (portable) : [Link](https://cdn.discordapp.com/attachments/943776213724463114/955260201831899186/28P-CHAT.rar)
 
@@ -18,7 +18,9 @@ peer to peer chat on tor service
 ### first run : run.py 
 
 ##### ========== Commands ==========
+
 <br>
+
 ```
 [--c] --conf
 [--r] --reconfig
